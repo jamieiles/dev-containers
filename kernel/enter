@@ -1,0 +1,29 @@
+#!/bin/bash
+HERE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+
+IMAGE_ID=$(tar c $HERE/image/ 2>/dev/null | sha1sum | awk '{print $1}')
+
+if ! container image inspect kernel:$IMAGE_ID >/dev/null 2>/dev/null; then
+	pushd $HERE/image >/dev/null
+	container build -t kernel:$IMAGE_ID
+	popd >/dev/null
+fi
+
+[[ $BUILD_ONLY == 1 ]] && exit 0
+
+exec container run \
+	--rm -it \
+	--memory 16G \
+	--cpus 10 \
+	--virtualization \
+	--cap-add ALL \
+	-v $HOME:$HOME \
+	-v /Volumes/src:/Volumes/src \
+	-e DEV_HOME=$HOME \
+	-e DEV_USER=$(id -u -n) \
+	-e DEV_UID=$(id -u) \
+	-e DEV_GID=$(id -g) \
+	-e SHELL=$SHELL \
+	--name $(hostname -s)-kernel \
+	-w $(pwd) \
+	kernel:$IMAGE_ID
