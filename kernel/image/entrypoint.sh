@@ -12,6 +12,8 @@ useradd --gid $DEV_GID --uid $DEV_UID -K UID_MIN=$DEV_UID -K UID_MAX=$DEV_UID -G
 
 [ -e /dev/kvm ] && chown :kvm /dev/kvm && chmod 0660 /dev/kvm
 
+[ -d /data ] && chown $DEV_UID:$DEV_GID /data
+
 if [ "$#" -ge 1 ]; then
     HOME=$DEV_HOME exec /usr/bin/chpst -u :$DEV_UID:$DEV_GID $SHELL -c "$*"
 else
