@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 HERE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 IMAGE_ID=$(tar c $HERE/image/ 2>/dev/null | sha1sum | awk '{print $1}')
@@ -6,6 +8,12 @@ IMAGE_ID=$(tar c $HERE/image/ 2>/dev/null | sha1sum | awk '{print $1}')
 if ! container image inspect kernel:$IMAGE_ID >/dev/null 2>/dev/null; then
 	pushd $HERE/image >/dev/null
 	container build -t kernel:$IMAGE_ID
+	if container image inspect kernel:latest >/dev/null 2>/dev/null; then
+		OLD=$(container image inspect kernel:latest | jq '.[0]["index"]["annotations"]["org.opencontainers.image.ref.name"]' -r)
+		container image rm kernel:latest
+		container image rm kernel:$OLD
+	fi
+	container image tag kernel:$IMAGE_ID kernel:latest
 	popd >/dev/null
 fi
 
