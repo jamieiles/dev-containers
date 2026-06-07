@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
     autoconf \
     bc \
+    binfmt-support \
     bison \
     build-essential \
     ca-certificates \
@@ -15,35 +16,47 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     cpio \
     cpp \
     curl \
+    debootstrap \
     device-tree-compiler \
     diffstat \
     direnv \
+    dosfstools \
+    fakeroot \
     file \
     flex \
     fzf \
     gawk \
+    gcc-multilib-x86-64-linux-gnu \
     gcc-riscv64-linux-gnu \
     gcc-x86-64-linux-gnu \
     gdb \
+    gdisk \
     git \
     less \
     libclang-dev \
     libcrypt-dev \
+    libelf-dev \
     libfdt-dev \
     libffi-dev \
     libfl-dev \
-    libfl-dev \
     libfl2 \
+    libglib2.0-dev \
     libreadline-dev \
     libssl-dev \
     llvm \
     llvm-dev \
     locales \
+    mtools \
+    ninja-build \
     python3 \
     python3-dev \
+    python3-setuptools \
+    qemu-user-binfmt \
     runit \
     sudo \
     tmux \
+    uidmap \
+    vim-nox \
     wget \
     zip \
     zlib1g \
