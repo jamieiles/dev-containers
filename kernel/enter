@@ -5,6 +5,21 @@ HERE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 IMAGE_ID=$(tar c $HERE/image/ 2>/dev/null | sha1sum | awk '{print $1}')
 
+for CONTAINER in $(container list -q); do
+	# Already running, exec in
+	if [ "$CONTAINER" = $(hostname -s)-kernel ]; then
+		exec container exec \
+			-it \
+			-e DEV_HOME=$HOME \
+			-e DEV_USER=$(id -u -n) \
+			-e DEV_UID=$(id -u) \
+			-e DEV_GID=$(id -g) \
+			-e SHELL=$SHELL \
+			-e HOME=$HOME \
+			$(hostname -s)-kernel /usr/bin/chpst -u $(id -u -n):$(id -u -n) $SHELL
+	fi
+done
+
 if ! container image inspect kernel:$IMAGE_ID >/dev/null 2>/dev/null; then
 	pushd $HERE/image >/dev/null
 	container build -t kernel:$IMAGE_ID
