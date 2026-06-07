@@ -36,6 +36,10 @@ if ! container volume inspect kernel-data >/dev/null 2>/dev/null; then
 	container volume create kernel-data
 fi
 
+if ! container volume inspect kernel-local >/dev/null 2>/dev/null; then
+	container volume create kernel-local
+fi
+
 [[ $BUILD_ONLY == 1 ]] && exit 0
 
 exec container run \
@@ -46,6 +50,7 @@ exec container run \
 	--cap-add ALL \
 	-v $HOME:$HOME \
 	-v kernel-data:/data/ \
+	-v kernel-local:$HOME/.local \
 	-v /Volumes/src:/Volumes/src \
 	-e DEV_HOME=$HOME \
 	-e DEV_USER=$(id -u -n) \
