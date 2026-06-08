@@ -62,6 +62,7 @@ exec container run \
 	-e DEV_UID=$(id -u) \
 	-e DEV_GID=$(id -g) \
 	-e SHELL=$SHELL \
+	--network default,mac=02:42:ac:11:00:02 \
 	--name $(hostname -s)-kernel \
 	-w $(pwd) \
 	kernel:$IMAGE_ID
