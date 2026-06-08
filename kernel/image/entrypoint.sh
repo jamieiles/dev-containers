@@ -8,7 +8,7 @@ id -u $DEV_UID 2>/dev/null >/dev/null && deluser $(id -n -u $DEV_UID)
 getent group $DEV_GID >/dev/null 2>/dev/null && delgroup $(getent group $DEV_GID | cut -d: -f1)
 
 groupadd --gid $DEV_GID $DEV_USER 
-useradd --gid $DEV_GID --uid $DEV_UID -K UID_MIN=$DEV_UID -K UID_MAX=$DEV_UID -G sudo,adm,kvm $DEV_USER 
+useradd --shell $SHELL --home-dir $DEV_HOME --no-create-home --gid $DEV_GID --uid $DEV_UID -K UID_MIN=$DEV_UID -K UID_MAX=$DEV_UID -G sudo,adm,kvm $DEV_USER 
 
 [ -e /dev/kvm ] && chown :kvm /dev/kvm && chmod 0660 /dev/kvm
 
