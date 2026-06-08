@@ -20,3 +20,18 @@ Kernel development focus
   - dependencies for Linux kernel and kvmtool
   - all capabilities to allow mounting raw devices
   - virtualization enabled and /dev/kvm accessible by unprivileged users
+
+## Setup
+
+```bash
+git clone https://github.com/apple/containerization.git
+cd containerization/kernel
+make
+# Build a new kernel with virtualization enabled
+sudo container system kernel set --binary vmlinux --force
+
+sudo container system dns create dev
+# Make default containers use dev domain to allow resolving
+# container IPs by hostname
+container system property set dns.domain dev
+```
