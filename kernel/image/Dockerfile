@@ -49,6 +49,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     meson \
     mtools \
     ninja-build \
+    openssh-server \
     python3 \
     python3-dev \
     python3-setuptools \
