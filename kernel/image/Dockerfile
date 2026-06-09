@@ -1,6 +1,7 @@
 ARG BUILD_BASE=ubuntu:26.04
 FROM $BUILD_BASE
 ENV DEBIAN_FRONTEND=noninteractive
+RUN rm /etc/dpkg/dpkg.cfg.d/excludes
 RUN apt-get update && apt-get install --no-install-recommends -y \
     autoconf \
     bc \
@@ -46,6 +47,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     llvm \
     llvm-dev \
     locales \
+    man \
+    man-db \
+    manpages-posix \
     meson \
     mtools \
     ninja-build \
@@ -59,6 +63,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     sudo \
     tmux \
     uidmap \
+    unminimize \
     vim-nox \
     wget \
     zip \
@@ -67,6 +72,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     zsh \
     zstd
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
+RUN yes | unminimize
 RUN groupadd --system kvm
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
