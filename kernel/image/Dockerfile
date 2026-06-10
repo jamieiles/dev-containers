@@ -71,7 +71,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     zlib1g-dev \
     zsh \
     zstd
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
+RUN echo "en_US.UTF-8 UTF-8\nen_GB.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 RUN yes | unminimize
 RUN groupadd --system kvm
 ENV LANG en_US.UTF-8
