@@ -33,5 +33,6 @@ sudo container system kernel set --binary vmlinux --force
 sudo container system dns create dev
 # Make default containers use dev domain to allow resolving
 # container IPs by hostname
-container system property set dns.domain dev
+mkdir -p ~/.config/container
+echo "[dns]\ndomain = \"container-dev\"" > ~/.config/container/config.toml
 ```
