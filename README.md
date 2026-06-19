@@ -30,8 +30,8 @@ make
 # Build a new kernel with virtualization enabled
 sudo container system kernel set --binary vmlinux --force
 
-sudo container system dns create dev
-# Make default containers use dev domain to allow resolving
+sudo container system dns create contaienr-dev
+# Make default containers use container-dev domain to allow resolving
 # container IPs by hostname
 mkdir -p ~/.config/container
 echo "[dns]\ndomain = \"container-dev\"" > ~/.config/container/config.toml
