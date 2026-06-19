@@ -4,6 +4,15 @@ set -e
 HERE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 
 IMAGE_ID=$(tar c $HERE/image/ 2>/dev/null | sha1sum | awk '{print $1}')
+LAUNCH_ARGS="-it"
+
+while getopts ":b" option; do
+	case $option in
+		b) LAUNCH_ARGS="--detach"
+		   BACKGROUND_COMMAND="sleep infinity"
+		;;
+	esac
+done
 
 for CONTAINER in $(container list -q); do
 	# Already running, exec in
@@ -47,7 +56,8 @@ fi
 [[ $BUILD_ONLY == 1 ]] && exit 0
 
 exec container run \
-	--rm -it \
+	$LAUNCH_ARGS \
+	--rm \
 	--init \
 	--memory 16G \
 	--cpus 10 \
@@ -66,4 +76,4 @@ exec container run \
 	--network default,mac=02:42:ac:11:00:02 \
 	--name $(hostname -s)-kernel \
 	-w $(pwd) \
-	kernel:$IMAGE_ID
+	kernel:$IMAGE_ID $BACKGROUND_COMMAND
