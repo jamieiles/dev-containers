@@ -28,9 +28,9 @@ git clone https://github.com/apple/containerization.git
 cd containerization/kernel
 make
 # Build a new kernel with virtualization enabled
-sudo container system kernel set --binary vmlinux --force
+container system kernel set --binary vmlinux-arm64 --force
 
-sudo container system dns create contaienr-dev
+sudo container system dns create container-dev
 # Make default containers use container-dev domain to allow resolving
 # container IPs by hostname
 mkdir -p ~/.config/container
