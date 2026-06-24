@@ -24,6 +24,12 @@ Kernel development focus
 ## Setup
 
 ```bash
+# Install Rosetta
+softwareupdate --install-rosetta --agree-to-license
+
+# Start the containerization service
+container system start --enable-kernel-install
+
 git clone https://github.com/apple/containerization.git
 cd containerization/kernel
 make
